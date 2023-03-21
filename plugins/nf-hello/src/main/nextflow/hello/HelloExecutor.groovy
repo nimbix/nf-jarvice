@@ -30,7 +30,6 @@ class HelloExecutor extends Executor implements ExtensionPoint {
     private Path remoteBinDir
 
     BatchClient getClient() { 
-        //log.info "[BEN-Executor] - getClient"
         return client 
     }
 
@@ -48,7 +47,6 @@ class HelloExecutor extends Executor implements ExtensionPoint {
 
     @Override
     protected void register() {
-        //log.info "[BEN-Executor] - register"
         super.register()
         createConfig()
         createClient()
@@ -66,7 +64,6 @@ class HelloExecutor extends Executor implements ExtensionPoint {
 
     @Override
     final Path getWorkDir() {
-        //log.info "[BEN-Executor] - getWorkDir"
         return session.bucketDir ?: session.workDir
     }
 
@@ -78,13 +75,11 @@ class HelloExecutor extends Executor implements ExtensionPoint {
 
     @Override
     TaskHandler createTaskHandler(TaskRun task) {
-        //log.info "[BEN-Executor] - createTaskHandler"
         return new HelloTaskHandler(task, this)
     }
 
     @Override
     protected TaskMonitor createTaskMonitor() {
-        //log.info "[BEN-Executor] - createTaskMonitor"
         TaskPollingMonitor.create(session, name, 1000, Duration.of('10 sec'))
     }
 

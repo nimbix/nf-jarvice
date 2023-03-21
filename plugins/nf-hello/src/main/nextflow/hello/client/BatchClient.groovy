@@ -1,15 +1,5 @@
 package nextflow.hello.client
 
-/*import com.google.api.gax.core.CredentialsProvider
-import com.google.api.gax.rpc.FixedHeaderProvider
-import com.google.auth.Credentials
-import com.google.cloud.batch.v1.BatchServiceClient
-import com.google.cloud.batch.v1.BatchServiceSettings
-import com.google.cloud.batch.v1.Job
-import com.google.cloud.batch.v1.JobName
-import com.google.cloud.batch.v1.JobStatus
-import com.google.cloud.batch.v1.LocationName
-import com.google.cloud.batch.v1.TaskGroupName*/
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 
@@ -21,18 +11,10 @@ import groovy.json.StreamingJsonBuilder;
 @CompileStatic
 class BatchClient {
 
-   // protected String projectId
-   // protected String location
-    //protected BatchServiceClient batchServiceClient
 
     BatchClient(BatchConfig config) {
-    //log.info "[BEN-BatchClient] - main"
-    //    this.projectId = "benid" //config.googleOpts.projectId
-    //    this.location = "benlocation" //config.googleOpts.location
-//        this.batchServiceClient = createBatchService(config)
     }
 
-    /** Only for testing - do not use */
     protected BatchClient() {}
 
     Map submitJob(Map jobobj) {
@@ -163,78 +145,6 @@ class BatchClient {
     }
 
 
-/*
-    protected CredentialsProvider createCredentialsProvider(BatchConfig config) {
-        if( !config.getCredentials() )
-            return null
-        return new CredentialsProvider() {
-            @Override
-            Credentials getCredentials() throws IOException {
-                return config.getCredentials()
-            }
-        }
-    }
 
-    protected BatchServiceClient createBatchService(BatchConfig config) {
-        final provider = createCredentialsProvider(config)
-        if( provider ) {
-            log.debug "[GOOGLE BATCH] Creating service client with config credentials"
-            final userAgent = FixedHeaderProvider.create('user-agent', 'Nextflow')
-            final settings = BatchServiceSettings
-                            .newBuilder()
-                            .setHeaderProvider(userAgent)
-                            .setCredentialsProvider(provider)
-                            .build()
-            return BatchServiceClient.create(settings)
-        }
-        else {
-            log.debug "[GOOGLE BATCH] Creating service client with default settings"
-            return BatchServiceClient.create()
-
-        }
-    }
-
-    Job submitJob(String jobId, Job job) {
-        final parent = LocationName.of(projectId, location)
-
-        return batchServiceClient.createJob(parent, job, jobId)
-    }
-
-    Job describeJob(String jobId) {
-        final name = JobName.of(projectId, location, jobId)
-
-        return batchServiceClient.getJob(name)
-    }
-
-    Iterable<?> listTasks(String jobId) {
-        final parent = TaskGroupName.of(projectId, location, jobId, 'group0')
-
-        return batchServiceClient.listTasks(parent).iterateAll()
-    }
-
-    void deleteJob(String jobId) {
-        final name = JobName.of(projectId, location, jobId).toString()
-
-        batchServiceClient.deleteJobAsync(name)
-    }
-
-    JobStatus getJobStatus(String jobId) {
-        final job = describeJob(jobId)
-        return job.getStatus()
-    }
-
-    String getJobState(String jobId) {
-        final status = getJobStatus(jobId)
-        return status ? status.getState().toString() : null
-    }
-
-    void shutdown() {
-        batchServiceClient.close()
-    }
-
-    String getLocation() {
-        return location
-    }
-*/
 }
 
