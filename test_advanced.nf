@@ -6,7 +6,7 @@ params.range = 100
  * A trivial Perl script that produces a list of number pairs
  */
 process perlTask {
-    container 'docker.io/perl:latest'
+    container 'library/perl:latest'
     machineType 'n0'
     output:
     stdout
@@ -29,7 +29,7 @@ process perlTask {
  * A Python script which parses the output of the previous script
  */
 process pyTask {
-    container 'docker.io/python:latest'
+    container 'library/python:latest'
     machineType 'n0'
     input:
     stdin
