@@ -61,7 +61,7 @@ class HelloTaskHandler extends TaskHandler implements FusionAwareTask {
 
     protected buildScript(nextflow.executor.BashWrapperBuilder launcher) {
 
-        String launchScript = "set -x\n set -e\n"
+        String launchScript = "#set -x\n set -e\nset -o pipefail\n"
         launchScript = launchScript + "cd ${Escape.path(launcher.workDir)}\n"
         launchScript = launchScript + "export NXF_CHDIR=${Escape.path(launcher.workDir)}\n"
         def currentEnvironment = [:]
@@ -263,14 +263,29 @@ class HelloTaskHandler extends TaskHandler implements FusionAwareTask {
         final job_status = client.getJobStatus(jobobj)
         if (job_status in TERMINATED) {
             this.status = TaskStatus.COMPLETED
+
+            // Gather output
+            String jobOutput = client.getJobOutput(jobobj)
+            String splitJobOutput = jobOutput.split("\n")
+            String finalJobOutput = []
+            Boolean start_logging = false
+            for (String eachSplit : splitJobOutput) {
+                if (start_loggin) {
+                    finalJobOutput.add(eachSplit)
+                }
+                if (eachSplit == "###############################################################################") {
+                    start_logging = true
+                }
+            }  
+
             if (job_status == "COMPLETED") {
-                task.exitStatus = 0
-                task.stdout = "My Task STDOUT" // To fix
-                task.stderr = "" // To FIX
+                task.exitStatus = 0          
+                task.stdout = finalJobOutput.join("\n")
+                task.stderr = ""
             } else {
                 task.exitStatus = 1
-                task.stdout = "My Task STDOUT" // To FIX
-                task.stderr = "" // To FIX
+                task.stdout = ""
+                task.stderr = finalJobOutput.join("\n")
             }
             return true
         } else {

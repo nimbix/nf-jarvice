@@ -37,40 +37,23 @@ class BatchClient {
         return jobData
     }
 
-    Map genericHttpPostRequest(String request_url, Map jsonBody) {
-        log.debug "Generic POST request URL: {}" , request_url
-        Map request_out = [:]
-        def url = new URL(request_url)
-        HttpURLConnection connection = url.openConnection() as HttpURLConnection;
-        connection.requestMethod = "POST"
-        connection.doOutput = true
-        connection.setRequestProperty("Content-Type", "application/json")
-        connection.outputStream
-        connection.outputStream.withWriter("UTF-8") { new StreamingJsonBuilder(it, jsonBody) }
-        connection.connect();
+    String getJobOutput(Map jobobj) {
 
-        int responseCode = connection.getResponseCode();
-        log.debug ("POST response code: " + responseCode);
-        request_out['response_code'] = responseCode
-        if (responseCode == HttpURLConnection.HTTP_OK) { // success
-            request_out['response_exit_code'] = 0
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
-            log.debug ("Server reponse body:");
-            log.debug (response.toString());
-            request_out['response_body'] = response.toString()
+        log.debug ("Get output of completed job ID: " + jobobj.jobId.toString())
+        String request_url = (jobobj['apiUrl'].toString() + "/jarvice/output?" + 
+                          "username=" + jobobj['user']['username'].toString() + 
+                          "&apikey=" + jobobj['user']['apikey'].toString() +
+                          "&name=" + jobobj['jobJarviceName'] +
+                          "&lines=0")
+        Map request_output = genericHttpGetRequest(request_url)
+
+        if(request_output['response_exit_code'] == 0) {
+            return request_output['response_body'].toString()
         } else {
-            log.debug ("POST request did not work.");
-            request_out['response_exit_code'] = 1
+            return "error"
         }
-        return request_out
-    }
 
+    }
 
     String getJobStatus(Map jobobj) {
 
@@ -110,6 +93,40 @@ class BatchClient {
             return "error"
         }
 
+    }
+
+    Map genericHttpPostRequest(String request_url, Map jsonBody) {
+        log.debug "Generic POST request URL: {}" , request_url
+        Map request_out = [:]
+        def url = new URL(request_url)
+        HttpURLConnection connection = url.openConnection() as HttpURLConnection;
+        connection.requestMethod = "POST"
+        connection.doOutput = true
+        connection.setRequestProperty("Content-Type", "application/json")
+        connection.outputStream
+        connection.outputStream.withWriter("UTF-8") { new StreamingJsonBuilder(it, jsonBody) }
+        connection.connect();
+
+        int responseCode = connection.getResponseCode();
+        log.debug ("POST response code: " + responseCode);
+        request_out['response_code'] = responseCode
+        if (responseCode == HttpURLConnection.HTTP_OK) { // success
+            request_out['response_exit_code'] = 0
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+            log.debug ("Server reponse body:");
+            log.debug (response.toString());
+            request_out['response_body'] = response.toString()
+        } else {
+            log.debug ("POST request did not work.");
+            request_out['response_exit_code'] = 1
+        }
+        return request_out
     }
 
     Map genericHttpGetRequest(String request_url) {
