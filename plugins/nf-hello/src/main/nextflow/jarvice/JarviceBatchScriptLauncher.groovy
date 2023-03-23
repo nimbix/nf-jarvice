@@ -1,4 +1,4 @@
-package nextflow.hello
+package nextflow.jarvice
 
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -13,15 +13,15 @@ import nextflow.util.PathTrie
 
 @Slf4j
 @CompileStatic
-class HelloBatchScriptLauncher extends BashWrapperBuilder {
+class JarviceBatchScriptLauncher extends BashWrapperBuilder {
 
-    protected HelloBatchScriptLauncher() {}
+    protected JarviceBatchScriptLauncher() {}
 
     /*
     BEN: this part allows to copy and alter original bean with our needs to
     create the final launcher bean.
     */
-    HelloBatchScriptLauncher(TaskBean bean, Path remoteBinDir) {
+    JarviceBatchScriptLauncher(TaskBean bean, Path remoteBinDir) {
         super(bean)       
         bean.headerScript = headerScript(bean)
     }

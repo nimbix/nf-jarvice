@@ -1,4 +1,4 @@
-package nextflow.hello
+package nextflow.jarvice
 
 import groovy.transform.CompileStatic
 import nextflow.executor.BashWrapperBuilder
@@ -6,13 +6,13 @@ import nextflow.processor.TaskBean
 import nextflow.processor.TaskRun
 
 @CompileStatic
-class HelloBashBuilder extends BashWrapperBuilder {
+class JarviceBashBuilder extends BashWrapperBuilder {
 
-    HelloBashBuilder(TaskRun task) {
+    JarviceBashBuilder(TaskRun task) {
         super(new TaskBean(task))
     }
 
-    HelloBashBuilder(TaskBean task) {
+    JarviceBashBuilder(TaskBean task) {
         super(task)
     }
 

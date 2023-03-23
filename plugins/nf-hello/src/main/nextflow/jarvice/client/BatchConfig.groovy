@@ -1,4 +1,4 @@
-package nextflow.hello.client
+package nextflow.jarvice.client
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j

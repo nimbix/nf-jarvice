@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-rootProject.name = 'nf-hello'
+rootProject.name = 'nf-jarvice'
 include('plugins')
-include('plugins:nf-hello')
+include('plugins:nf-jarvice')
 includeBuild('../nextflow')

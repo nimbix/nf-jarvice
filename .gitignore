@@ -9,5 +9,5 @@ work
 out
 buildSrc/build
 buildSrc/.gradle
-plugins/nf-hello/.nextflow
-plugins/nf-hello/build
+plugins/nf-jarvice/.nextflow
+plugins/nf-jarvice/build

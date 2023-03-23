@@ -14,27 +14,22 @@
  * limitations under the License.
  */
 
-package nextflow.hello
+package nextflow.jarvice
 
 import groovy.transform.CompileStatic
-import groovy.util.logging.Slf4j
-import nextflow.Session
-import nextflow.trace.TraceObserver
-import nextflow.trace.TraceObserverFactory
+import nextflow.plugin.BasePlugin
+import nextflow.plugin.Scoped
+import org.pf4j.PluginWrapper
+
 /**
- * Implements the validation observer factory
+ * Implements the Jarvice plugins entry point
  *
  * @author Paolo Di Tommaso <paolo.ditommaso@gmail.com>
  */
-@Slf4j
 @CompileStatic
-class HelloFactory implements TraceObserverFactory {
+class JarvicePlugin extends BasePlugin {
 
-    @Override
-    Collection<TraceObserver> create(Session session) {
-        final result = new ArrayList()
-        result.add( new HelloObserver() )
-        //log.info "BEN - Factory "
-        return result
+    JarvicePlugin(PluginWrapper wrapper) {
+        super(wrapper)
     }
 }

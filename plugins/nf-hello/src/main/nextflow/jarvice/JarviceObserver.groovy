@@ -14,22 +14,37 @@
  * limitations under the License.
  */
 
-package nextflow.hello
+package nextflow.jarvice
 
 import groovy.transform.CompileStatic
-import nextflow.plugin.BasePlugin
-import nextflow.plugin.Scoped
-import org.pf4j.PluginWrapper
+import groovy.util.logging.Slf4j
+import nextflow.Session
+import nextflow.trace.TraceObserver
 
 /**
- * Implements the Hello plugins entry point
+ * Example workflow events observer
  *
  * @author Paolo Di Tommaso <paolo.ditommaso@gmail.com>
  */
+@Slf4j
 @CompileStatic
-class HelloPlugin extends BasePlugin {
+class JarviceObserver implements TraceObserver {
 
-    HelloPlugin(PluginWrapper wrapper) {
-        super(wrapper)
+    @Override
+    void onFlowCreate(Session session) {
+        log.info """
+       _  _   _____   _____ ___ ___
+    _ | |/_\\ | _ \\ \\ / /_ _/ __| __|
+   | || / _ \\|   /\\ V / | | (__| _|
+    \\__/_/ \\_\\_|_\\ \\_/ |___\\___|___|
+
+         Jarvice Nextflow plugin
+        """
+        log.info "Pipeline is starting!\n\n"
+    }
+
+    @Override
+    void onFlowComplete() {
+        log.info "\n\nPipeline completed!"
     }
 }

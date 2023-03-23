@@ -1,4 +1,4 @@
-package nextflow.hello
+package nextflow.jarvice
 
 import nextflow.processor.TaskConfig
 
@@ -21,14 +21,14 @@ import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper;
 import groovy.json.StreamingJsonBuilder;
 
-import nextflow.hello.client.BatchClient 
+import nextflow.jarvice.client.BatchClient 
 
 
 @Slf4j
 @CompileStatic
-class HelloTaskHandler extends TaskHandler implements FusionAwareTask {
+class JarviceTaskHandler extends TaskHandler implements FusionAwareTask {
 
-    private HelloExecutor executor
+    private JarviceExecutor executor
 
     private BatchClient client
 
@@ -44,7 +44,7 @@ class HelloTaskHandler extends TaskHandler implements FusionAwareTask {
     private volatile long timestamp
 
 
-    HelloTaskHandler(TaskRun task, HelloExecutor executor) {
+    JarviceTaskHandler(TaskRun task, JarviceExecutor executor) {
         super(task)
         this.client = executor.getClient()
         this.jobId = "nf-${task.hashLog.replace('/','')}-${System.currentTimeMillis()}"
@@ -56,7 +56,7 @@ class HelloTaskHandler extends TaskHandler implements FusionAwareTask {
 
     protected BashWrapperBuilder createTaskWrapper() {
         final taskBean = task.toTaskBean()
-        return new HelloBatchScriptLauncher(taskBean, executor.remoteBinDir)
+        return new JarviceBatchScriptLauncher(taskBean, executor.remoteBinDir)
     }
 
     protected buildScript(nextflow.executor.BashWrapperBuilder launcher) {

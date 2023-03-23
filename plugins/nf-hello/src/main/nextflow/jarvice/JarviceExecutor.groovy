@@ -1,4 +1,4 @@
-package nextflow.hello
+package nextflow.jarvice
 
 import java.nio.file.Path
 
@@ -16,13 +16,13 @@ import nextflow.util.Duration
 import nextflow.util.ServiceName
 import org.pf4j.ExtensionPoint
 
-import nextflow.hello.client.BatchClient
-import nextflow.hello.client.BatchConfig
+import nextflow.jarvice.client.BatchClient
+import nextflow.jarvice.client.BatchConfig
 
 @Slf4j
-@ServiceName(value='hello')
+@ServiceName(value='jarvice')
 @CompileStatic
-class HelloExecutor extends Executor implements ExtensionPoint {
+class JarviceExecutor extends Executor implements ExtensionPoint {
 
     private BatchClient client
     private BatchConfig config
@@ -69,13 +69,13 @@ class HelloExecutor extends Executor implements ExtensionPoint {
 
     @Override
     void shutdown() {
-        log.info "[BEN-BUG-1] - executor shutdown"
+        //log.info "[BEN-BUG-1] - executor shutdown"
         //client.shutdown()
     }
 
     @Override
     TaskHandler createTaskHandler(TaskRun task) {
-        return new HelloTaskHandler(task, this)
+        return new JarviceTaskHandler(task, this)
     }
 
     @Override

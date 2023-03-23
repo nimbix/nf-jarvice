@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package nextflow.hello
+package nextflow.jarvice
 
 import nextflow.Session
 import spock.lang.Specification
@@ -23,14 +23,14 @@ import spock.lang.Specification
  *
  * @author Paolo Di Tommaso <paolo.ditommaso@gmail.com>
  */
-class HelloFactoryTest extends Specification {
+class JarviceFactoryTest extends Specification {
 
     def 'should return observer' () {
         when:
-        def result = new HelloFactory().create(Mock(Session))
+        def result = new JarviceFactory().create(Mock(Session))
         then:
         result.size()==1
-        result[0] instanceof HelloObserver
+        result[0] instanceof JarviceObserver
     }
 
 }
