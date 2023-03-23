@@ -69,7 +69,7 @@ class HelloExecutor extends Executor implements ExtensionPoint {
 
     @Override
     void shutdown() {
-        //log.info "[BEN-Executor] - shutdown"
+        log.info "[BEN-BUG-1] - executor shutdown"
         //client.shutdown()
     }
 

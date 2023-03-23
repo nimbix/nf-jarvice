@@ -263,6 +263,7 @@ class HelloTaskHandler extends TaskHandler implements FusionAwareTask {
         final job_status = client.getJobStatus(jobobj)
         if (job_status in TERMINATED) {
             this.status = TaskStatus.COMPLETED
+            task.exitStatus = readExitFile()
 
             // Gather output
             String jobOutput = client.getJobOutput(jobobj)
@@ -282,17 +283,28 @@ class HelloTaskHandler extends TaskHandler implements FusionAwareTask {
             }  
 //            log.info "BEN - OUTPUT {}" , finalJobOutput.join("\n")
             if (job_status == "COMPLETED") {
-                task.exitStatus = 0          
+//                task.exitStatus = 0          
                 task.stdout = finalJobOutput.join("\n")
                 task.stderr = ""
             } else {
-                task.exitStatus = 1
+                log.info "[BEN-BUG-1] - report completed with errors"
+//                task.exitStatus = null
                 task.stdout = ""
                 task.stderr = finalJobOutput.join("\n")
             }
             return true
         } else {
             return false
+        }
+    }
+
+    @PackageScope Integer readExitFile() {
+        try {
+            exitFile.text as Integer
+        }
+        catch (Exception e) {
+            log.info "[BEN-BUG-1] Cannot read exitstatus for task: `$task.name` | ${e.message}"
+            null
         }
     }
 
@@ -352,6 +364,7 @@ class HelloTaskHandler extends TaskHandler implements FusionAwareTask {
     @Override
     void kill() {
         log.debug ("Starting shutdown of job ID: " + this.jobId.toString())
+        log.info "[BEN-BUG-1] - task kill start"
 
         Map jobobj = [:]
         jobobj['jobId'] = this.jobId
@@ -361,6 +374,7 @@ class HelloTaskHandler extends TaskHandler implements FusionAwareTask {
         jobobj['jobJarviceId'] = this.jobJarviceId
 
         final killStatus = client.killJob(jobobj)
+        log.info "[BEN-BUG-1] - task kill end"
 
     }
 
