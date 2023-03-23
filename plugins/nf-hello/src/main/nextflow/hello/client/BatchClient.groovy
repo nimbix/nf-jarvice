@@ -46,8 +46,6 @@ class BatchClient {
                           "&name=" + jobobj['jobJarviceName'] +
                           "&lines=0")
         Map request_output = genericHttpGetRequest(request_url)
-        log.info "BEN - OUT 78"
-        log.info (request_output['response_body'].toString())
 
         if(request_output['response_exit_code'] == 0) {
             return request_output['response_body'].toString()

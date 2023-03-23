@@ -186,8 +186,8 @@ class HelloTaskHandler extends TaskHandler implements FusionAwareTask {
         }
     }*/
 
-    private List<String> RUNNING_AND_TERMINATED = ['PROCESSING_STARTING', 'COMPLETED', 'COMPLETED_WITH_ERROR', 'CANCELED', 'TERMINATED']
-    private List<String> TERMINATED = ['COMPLETED', 'COMPLETED_WITH_ERROR', 'CANCELED', 'TERMINATED']
+    private List<String> RUNNING_AND_TERMINATED = ['PROCESSING STARTING', 'COMPLETED', 'COMPLETED WITH ERROR', 'CANCELED', 'TERMINATED']
+    private List<String> TERMINATED = ['COMPLETED', 'COMPLETED WITH ERROR', 'CANCELED', 'TERMINATED']
 
     @Override
     boolean checkIfRunning() {
@@ -287,7 +287,7 @@ class HelloTaskHandler extends TaskHandler implements FusionAwareTask {
                 task.stdout = finalJobOutput.join("\n")
                 task.stderr = ""
             } else {
-                log.info "[BEN-BUG-1] - report completed with errors"
+//                log.info "[BEN-BUG-1] - report completed with errors"
 //                task.exitStatus = null
                 task.stdout = ""
                 task.stderr = finalJobOutput.join("\n")
@@ -303,7 +303,7 @@ class HelloTaskHandler extends TaskHandler implements FusionAwareTask {
             exitFile.text as Integer
         }
         catch (Exception e) {
-            log.info "[BEN-BUG-1] Cannot read exitstatus for task: `$task.name` | ${e.message}"
+            log.debug "[JARVICE] Cannot read exitstatus for task: `$task.name` | ${e.message}"
             null
         }
     }
@@ -364,7 +364,6 @@ class HelloTaskHandler extends TaskHandler implements FusionAwareTask {
     @Override
     void kill() {
         log.debug ("Starting shutdown of job ID: " + this.jobId.toString())
-        log.info "[BEN-BUG-1] - task kill start"
 
         Map jobobj = [:]
         jobobj['jobId'] = this.jobId
@@ -374,7 +373,6 @@ class HelloTaskHandler extends TaskHandler implements FusionAwareTask {
         jobobj['jobJarviceId'] = this.jobJarviceId
 
         final killStatus = client.killJob(jobobj)
-        log.info "[BEN-BUG-1] - task kill end"
 
     }
 
