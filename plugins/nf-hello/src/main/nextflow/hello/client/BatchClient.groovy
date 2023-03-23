@@ -46,6 +46,8 @@ class BatchClient {
                           "&name=" + jobobj['jobJarviceName'] +
                           "&lines=0")
         Map request_output = genericHttpGetRequest(request_url)
+        log.info "BEN - OUT 78"
+        log.info (request_output['response_body'].toString())
 
         if(request_output['response_exit_code'] == 0) {
             return request_output['response_body'].toString()
@@ -145,11 +147,34 @@ class BatchClient {
         if (responseCode == HttpURLConnection.HTTP_OK) { // success
             request_out['response_exit_code'] = 0
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+
             String inputLine;
+            StringBuffer response = new StringBuffer();
+            Boolean loop_first = true
+            while ((inputLine = in.readLine()) != null) {
+                if (loop_first) {
+                    loop_first = false
+                } else {
+                    response.append("\n");
+                }
+                    response.append(inputLine);
+            }
+//            log.info "HAHAHAHAHA {}" ,  response.toString()
+/*            def newinputline = [];
+            StringBuffer response = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                newinputline.add(inputLine);
+            }
+            log.info 'COUCOU'
+            newinputline.each { val -> println "cocuou" + val }
+*/
+/*
             StringBuffer response = new StringBuffer();
             while ((inputLine = in.readLine()) != null) {
                 response.append(inputLine);
             }
+*/
             in.close();
             log.debug ("Server reponse body:");
             log.debug (response.toString());
