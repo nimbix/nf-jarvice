@@ -8,7 +8,7 @@ plugins {
 }
 process {
     executor = 'jarvice'
-    apiUrl = 'https://jarvice-development-api.jarvicedev.com'
+    apiUrl = 'https://cloud.nimbix.net/api'
     machineType = 'n0'
     vault {
         name = 'persistent'
