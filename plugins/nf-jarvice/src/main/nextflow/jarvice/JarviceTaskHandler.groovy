@@ -91,7 +91,7 @@ class JarviceTaskHandler extends TaskHandler implements FusionAwareTask {
         jsonBody['user'] = task.config['user']
         jsonBody['machine'] = [type: task.config['machineType'], nodes: 1]
         jsonBody['job_label'] = this.jobId
-        jsonBody['container'] = [jobscript: launchScript, image: task.config['container']]
+        jsonBody['container'] = [jobscript: launchScript.bytes.encodeBase64().toString(), image: task.config['container']]
         log.debug (jsonBody as String)
 
         // BEN: prepare submition object
