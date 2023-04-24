@@ -7,7 +7,7 @@ User must have an api key along with the username, and submit jobs from a folder
 In order to use the plugin, user must provide the following information into the `nextflow.config` file of the project:
 
 
-```json
+```
 plugins {
   id 'nf-jarvice@1.0.0'
 }
