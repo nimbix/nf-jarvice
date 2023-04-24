@@ -9,7 +9,7 @@ In order to use the plugin, user must provide the following information into the
 
 ```
 plugins {
-  id 'nf-jarvice@1.0.0'
+  id 'nf-jarvice@0.6.0'
 }
 process {
     executor = 'jarvice'
