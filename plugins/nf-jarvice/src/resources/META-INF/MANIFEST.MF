@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Plugin-Id: nf-jarvice
-Plugin-Version: 0.6.0
+Plugin-Version: 0.7.0
 Plugin-Class: nextflow.jarvice.JarvicePlugin
 Plugin-Provider: nextflow
 Plugin-Requires: >=22.10.0

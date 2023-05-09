@@ -1,3 +1,12 @@
+/*
+ * Copyright (c) 2023 Nimbix, Inc.  All Rights Reserved.
+ *
+ * Inspired from nf-google plugin,
+ * from https://github.com/nextflow-io/nextflow/blob/master/plugins/nf-google
+ * which is licensed under Apache License, Version 2.0
+ *
+ */
+
 package nextflow.jarvice
 
 import nextflow.processor.TaskConfig
@@ -113,7 +122,10 @@ class JarviceTaskHandler extends TaskHandler implements FusionAwareTask {
             log.debug ("JOB JARVICE ID: " + this.jobJarviceId.toString())
             log.info ("Jarvice job " + this.jobJarviceId.toString() + " submitted.")
         } else {
-            log.error ("Failed to submit job!");
+            this.status = TaskStatus.COMPLETED
+            task.exitStatus = 247
+            log.error ("Failed to submit job!")
+            log.error ("Investigate .nextflow.log file for more details.")
         }
 
     }
@@ -267,13 +279,10 @@ class JarviceTaskHandler extends TaskHandler implements FusionAwareTask {
 
             // Gather output
             String jobOutput = client.getJobOutput(jobobj)
-//            log.info "BEN - OUTPUT1 {}" , jobOutput
             String[] splitJobOutput = jobOutput.split("\n")
-//            log.info (splitJobOutput[1])
             def finalJobOutput = []
             Boolean start_logging = false
             for (eachSplit in splitJobOutput) {
-//                log.info "HIHIHIH {}" , eachSplit.toString()
                 if (start_logging) {
                     finalJobOutput.add(eachSplit)
                 }
@@ -281,14 +290,10 @@ class JarviceTaskHandler extends TaskHandler implements FusionAwareTask {
                     start_logging = true
                 }
             }  
-//            log.info "BEN - OUTPUT {}" , finalJobOutput.join("\n")
             if (job_status == "COMPLETED") {
-//                task.exitStatus = 0          
                 task.stdout = finalJobOutput.join("\n")
                 task.stderr = ""
             } else {
-//                log.info "[BEN-BUG-1] - report completed with errors"
-//                task.exitStatus = null
                 task.stdout = ""
                 task.stderr = finalJobOutput.join("\n")
             }
