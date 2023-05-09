@@ -261,7 +261,8 @@ class BatchClient {
             log.error ("HTTP request to Jarvice cluster - Status-Code 304: Not Modified.")
             return 1
         } else if (http_code == HttpURLConnection.HTTP_OK) {
-            log.info ("HTTP request to Jarvice cluster - Status-Code 200: OK.")
+            // send this message to debug because this is normal behavior
+            log.debug ("HTTP request to Jarvice cluster - Status-Code 200: OK.")
             return 0
         } else if (http_code == HttpURLConnection.HTTP_PARTIAL) {
             log.error ("HTTP request to Jarvice cluster - Status-Code 206: Partial Content.")
